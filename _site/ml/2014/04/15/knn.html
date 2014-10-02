@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Onn</title>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/simple-sidebar.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/post.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/hemisu-light.css"/>
+    <script src="/assets/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/google-code-prettify/prettify.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/post.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand"><a href="/">Onn</a></li>
+          <li><a href="/life.html">Life</a></li>
+          <li><a href="/algorithm.html">Algorithm</a></li>
+          <li><a href="/ml.html">Machine Learning</a></li>
+          <li><a href="/system.html">System</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div> 
+
+      <div id="page-content-wrapper" class="container">
+        <div id="page-content" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          <div>
+  <h2 class="post-title">KNN (K nearest neighbours)</h2>
+  <p class="post-date">15 April 2014</p>
+  <div class="post-content"><p><strong>本文从kazenoyumechen.wordpress.com上迁移过来</strong></p>
+
+<hr />
+
+<p>KNN是機器學習中最簡單的算法之一，它即可以用來解決回歸（regression）問題，同時也可以用來解決分類（classification）問題。</p>
+
+<hr />
+
+<p>假設目前已有一定的訓練數據，訓練數據的格式是 <script type="math/tex"> (val, v_1, v_2, \ldots, v_n) \in C \times R^n </script> 。C表示的是分類問題中的離散取值空間。同時，對一測試數據 <script type="math/tex">x^*</script> ，測試數據的格式爲 <script type="math/tex">(v_1, v_2, \ldots, v_n)</script>。</p>
+
+<p>爲了對 <script type="math/tex">x^*</script> 進行分類，KNN將在訓練集中選取與 <script type="math/tex">x^*</script> 最近的k個節點。並且根據這k個節點的標記值 <script type="math/tex">（val）</script> 從而決定 <script type="math/tex">x^*</script> 的取值。</p>
+
+<hr />
+
+<p>距離度量：距離度量的方式多種多樣，對連續數據來說，一種常見的方法爲使用歐氏距離 <script type="math/tex">\sum_{i=1}^{n}(x_i - {x^*}_i)^2</script> 來對兩個節點之間進行距離度量。對離散數據，如文本，則可用另外的度量方式（如Hamming distance）。</p>
+
+<p>投票（vote）：投票是指根據KNN所選出的k個節點的信息對 <script type="math/tex">x^*</script> 進行分類的過程。一種常見的投票方法爲將 <script type="math/tex">x^*</script> 分類爲k個節點中標籤值最多的標籤。然而，若訓練數據中某個標籤的數目特別多， <script type="math/tex">x^*</script> 被分類成該標籤的概率相當的大（major voting）。一種改進方法就是按照節點與 <script type="math/tex">x^*</script> 的距離進行有權重的投票，與<script type="math/tex">x^*</script>第i近的節點的投票權重爲 <script type="math/tex">\frac{1}{i}</script>。</p>
+
+<p>k值的選擇：KNN算法中的k值大小是由算法實現者自行決定的。k選得過大的時候，就很容易出現major voting問題。而k選取過小又容易使得算法分類效果不好。現在的算法實現中，k值一般可通過Large Margin Nearest Neighbour或Neighbourhood component analysis進行學習。</p>
+
+<hr />
+
+<p>由於對於每一測試數據均查找與該數據最近的前k個節點，最簡單的實現方法爲需要遍歷所有的訓練數據，當測試數據規模爲m時，該實現的算法復雜度爲O(nm）。當m數據比較大時，該算法就會慢得不可忍受。可通過使用cover tree或k-d tree對該算法進行改進，使得查找前k個節點的算法復雜度下降，整體算法復雜度降至O(mlogn)。</p>
+
+<hr />
+
+<p>以下爲最爲簡單的KNN算法實現，在Kaggle的Digit Recognize上分率準確率能達到96.486%。</p>
+
+<pre class="prettyprint lang-py"><code>import numpy as np
+import heapq
+def dist(a, b):
+    #歐氏距離
+    return np.linalg.norm(a - b)
+ 
+def find_k_neigh(x, trainX, trainY, k):
+    Q = [] #使用堆保存離x節點最近的前k個節點
+    for i in range(trainX.shape[0]):
+        d = dist(x, trainX[i])
+        #python只支持小根堆，將數值反轉實現大根堆的功能
+        heapq.heappush(Q, (-d, i))
+        if len(Q) &gt; k:
+            heapq.heappop(Q)
+    #將堆中元素按照與k距離大小從小到大排序
+    Q.sort()
+    Q.reverse()
+    return map(lambda x: x[1], Q)
+ 
+def k_neigh_vote(idxs, trainY, k):
+    M = {}
+    for i in range(10): M[i] = 0
+    maxLabel = 0
+    for i in range(k):
+        idx = idxs[i]
+        label = trainY[idx]
+        weight = 1. / (1 + i)
+        M[label] += weight
+        maxLabel = maxLabel if M[maxLabel] &gt; M[label] else label
+    return maxLabel
+ 
+def knn(testX, trainX, trainY, k):
+    testY = []
+    for i in range(testX.shape[0]):
+        neighs = find_k_neigh(testX[i], trainX, trainY, k)
+        testY.append(int(k_neigh_vote(neighs, trainY, k)))
+    return testY
+</code></pre>
+</div>
+</div>
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

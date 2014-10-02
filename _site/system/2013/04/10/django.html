@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Onn</title>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/simple-sidebar.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/post.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/hemisu-light.css"/>
+    <script src="/assets/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/google-code-prettify/prettify.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/post.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand"><a href="/">Onn</a></li>
+          <li><a href="/life.html">Life</a></li>
+          <li><a href="/algorithm.html">Algorithm</a></li>
+          <li><a href="/ml.html">Machine Learning</a></li>
+          <li><a href="/system.html">System</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div> 
+
+      <div id="page-content-wrapper" class="container">
+        <div id="page-content" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          <div>
+  <h2 class="post-title">搭建博客小记</h2>
+  <p class="post-date">10 April 2013</p>
+  <div class="post-content"><p><strong>本文是在原博客kazenoyu.me上迁移过来</strong></p>
+
+<p>最近在用django框架写个人博客，经过几天的奋战之后代码终于写得差不多了。写完代码之后就遇到另外一个问题，如何配置服务器来让django能跑起来。<br />
+在折腾配置django服务器的时候遇到了很多很多的问题。原本以为在服务器上配置跟在本地配置一样简单，没想到一大堆奇怪的东西要去折腾。在开始的时候连简单的ssh都不会，还要帆爷教这命令怎么用。</p>
+
+<pre class="prettyprint"><code>ssh username@127.0.0.1
+</code></pre>
+
+<p>然后在服务器上各种配环境，期间也出过不少的奇葩问题。比如说服务器的python2.6是不支持{}这样来创建set的，这个在2.7才支持。</p>
+
+<p>刚开始以为要去折腾apache,于是便按照The django Book推荐那样去部署服务器:<br />
+<a href="http://www.djangobook.com/en/2.0/chapter12.html">http://www.djangobook.com/en/2.0/chapter12.html</a><br />
+这时候就去找modpython了，按找官方的教程配置了半天：<a href="http://www.modpython.org/">http://www.modpython.org/</a><br />
+期间还遇到过apxs找不到的问题，上网找发现原来是在apache-devel里面的，yum一个就好了。</p>
+
+<pre class="prettyprint"><code>./configure
+make
+make install
+</code></pre>
+
+<p>编译安装成功后于是去折腾apache。进入apache之后才发现原来我们的服务器超复杂的样子，各种LoadModule.按照modpython那样折腾，最后却在django部署的时候发现django.core.handler.modpython不存在,我了个去！上网找了下，发现原来是modpy这个东西早就夭折没维护了。</p>
+
+<p>人家推荐我用wsgi,后来又去wsgi找了下教程<a href="http://code.google.com/p/modwsgi/">http://code.google.com/p/modwsgi/</a> <br />
+然后又很fuck的发现假如我在apache里面放了wsgi,那么就会自动载入wsgi脚本。这样又直接把ddmbr跟odreaming的博客搞挂了。</p>
+
+<p>最后在django官网上找到个文档，上面说假如你的机子是多个人共享的话，而且又不想搞virtual localhost的话就用nginx + fastcgi。</p>
+
+<p>nginx安装指南 
+虽然我装上了nginx,还测试了nginx成功了，但django的部署还是不成功。
+这时返回的是404,后来经过多翻google,发现原来是我nginx的路径配置错误了。在这里我贴一下正确的配置:</p>
+
+<pre class="prettyprint"><code>server {
+    listen       8003;#这里是我自己监听的端口
+    server_name  kazenoyu.me;#我域名 　　
+    #记得/static,/media后面没/
+    location /static{#django静态文件目录
+         root /path/to/your/django/static/files;#注意static是直接去到这个目录找的，跟static没半点关系 　　　　　　　　　　　　　　　　　　　  #static 只是网站的解析而已
+   }
+
+    location /media {#django用户上传文件目录
+        root   /path/to/your/django/media/files;#同上
+    }
+
+    #django 与nginx交流的设置,fastcgi
+    location / {
+        # host and port to fastcgi server
+        fastcgi_pass 127.0.0.1:xxxx;#django运行端口
+        fastcgi_param SERVER_NAME $server_name;
+        fastcgi_param SERVER_PORT $server_port;
+        fastcgi_param SERVER_PROTOCOL $server_protocol;
+        fastcgi_param PATH_INFO $fastcgi_script_name;
+        fastcgi_param REQUEST_METHOD $request_method;
+        fastcgi_param QUERY_STRING $query_string;
+        fastcgi_param CONTENT_TYPE $content_type;
+        fastcgi_param CONTENT_LENGTH $content_length;
+        fastcgi_pass_header Authorization;
+        fastcgi_intercept_errors off;
+        }
+}
+</code></pre>
+
+<p>这个文件是在/etc/nginx/conf.d/下面的，根据自己的需求命名吧,.conf结尾就好。nginx在运行时会自动找的，重启nginx:</p>
+
+<pre class="prettyprint"><code>service nginx restart
+</code></pre>
+
+<p>到django的项目目录下，配置settings.py文件，在这个文件是我栽了个大跟头。在服务器配置时（不是本地！本地是不一样的，我也折腾个这个！）:
+* MEDIA_ROOT:是用户上传文件存放在你服务器上文件夹的位置。
+* MEDIA_URL:django解析网址的时候，会把/MEDIA_URL这样的路径指向MEDIA_ROOT。
+* STATIC_ROOT:没啥用，nginx会自动帮你找到图片的
+* STATIC_URL:在网页引用静态文件的时候，/STATIC_URL会明确的去找在该目录下的静态文件。其实这东西挺重要的，可惜django没说到。</p>
+
+<p>配置完之后记得把settings里面的DEBUG和TEMPLATE_DEBUG设置为False,没有的话自己添加。这样在页面错误的时候就看不到恶心的出错页面了。</p>
+
+<p>然后在manage.py那里运行:</p>
+
+<pre class="prettyprint"><code>python manage.py runfcgi method=threaded host=127.0.0.1 port=xxx
+</code></pre>
+
+<p>看见部署成功就应该没问题了。</p>
+
+<p>不过到这里还有个问题，虽然我能看到我的网站，但是静态文件却无法获取。用chrome的开发人员工具发现是403forbidden。于是在网上发现nginx的bug日志是放在/var/log/nginx/里面的，里面有两个文件：access.log和errors.log。errors.log就是我们要找的。</p>
+
+<p>在errors.log里面发现类似这样的东西:</p>
+
+<pre><code>open()
+"/var/cache/nginx/fastcgi_temp/5/00/0000000005" failed (13: Permissiondenied) while reading upstream, client: 139.112.144.210, server: example.com,
+request: "GET /index.php HTTP/1.0", upstream: "fastcgi://127.0.0.1:9000",
+host: "example.com", referrer: "http://example.com/"
+</code></pre>
+
+<p>原来是没权限啊！网上搜了下发现，nginx的daemon权限不能直接去处理这些文件。到/static和/media的绝对路径那里，chown nginx xxxx。搞定～</p>
+
+<p>最后还有个小问题就是google-pretty的东西不知道为什么不能用。后来看了下chrome debug tools,发现也是403。看了下google-pretty-code文件夹，发现是-rw-r—–,于是果断chmod 644。
+搞定，收工～</p>
+
+</div>
+</div>
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

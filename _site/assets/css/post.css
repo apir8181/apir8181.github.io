@@ -1,0 +1,18 @@
+.post-title {
+    color: #f45145;
+}
+
+.post-title a {
+    color: #f45145;
+}
+
+.post-date {
+    color: #9a9a9a;
+    margin-top: -.5rem;
+}
+
+.post-content {
+    color: #656e7f;
+    /*text-align: justify;*/
+    /*text-justify: inter-ideograph;*/
+}

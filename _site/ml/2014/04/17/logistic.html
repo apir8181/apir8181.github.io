@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Onn</title>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/simple-sidebar.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/post.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/hemisu-light.css"/>
+    <script src="/assets/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/google-code-prettify/prettify.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/post.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand"><a href="/">Onn</a></li>
+          <li><a href="/life.html">Life</a></li>
+          <li><a href="/algorithm.html">Algorithm</a></li>
+          <li><a href="/ml.html">Machine Learning</a></li>
+          <li><a href="/system.html">System</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div> 
+
+      <div id="page-content-wrapper" class="container">
+        <div id="page-content" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          <div>
+  <h2 class="post-title">Logistic Regression</h2>
+  <p class="post-date">17 April 2014</p>
+  <div class="post-content"><p><strong>本文从kazenoyumechen.wordpress.com上迁移过来</strong><br />
+<em>本文是一篇未完成的博文</em></p>
+
+<hr />
+
+<p>Logistic Regression在现实中是有效解决分类问题的分类算法之一。这个算法是处理二值分类问题的一个有效算法。二值分类问题指的是，数据集中的标签y只能取值为0或1。</p>
+
+<p>按常理来说Linear Rgression也能应用到二值分类问题中，在这种情况下，当<script type="math/tex">h_\theta(x) \geq 0.5</script>，<script type="math/tex">y = 1</script>，当<script type="math/tex">h_\theta(x) \lt 0.5</script>, <script type="math/tex">y = 0</script>。但是由于Linear Regression的特点，异常值的出现会严重影响其分类效果，所以Linear Regression并不太适合于用作分类问题。</p>
+
+<p>现有训练集，<script type="math/tex">(y, x^{(i)})</script>，其中<script type="math/tex">y \in \{0,1\}</script>，<script type="math/tex">x^{(i)} \in \mathbb{R}^n</script>，在Logistic Regression中，估值函数<script type="math/tex">h_\theta(x) = \frac{1}{1 + e^{-\theta^{T}x^{(i)}}}</script>。由估值函数定义域可知，其值域<script type="math/tex">\mathbf{R} = [0, 1]</script>。该<script type="math/tex">h(x)</script>函数图像如下图所示：<br />
+<img src="/assets/posts/2014-04-17-logistic/figure_1.png" alt="figure_1" /></p>
+
+<p>同时，在Logistic Regression中，定义Cost Function:<br />
+<img src="/assets/posts/2014-04-17-logistic/figure_2.png" alt="figure_2" /></p>
+
+<p>从Cost Function定义可看出，当$latex h_{\theta}(x)$分类越不确定时，CostFunction的值越大。同时定义目标函数<br />
+<script type="math/tex"> J(\theta) = \frac{1}{m} \sum_{i=1}^{m}(-y^{(i)}\log{(h_{\theta}(x^{(i)}))} - (1-y^{(i)})\log{(1 - h_{\theta}(x^{(i)}))}) </script><br />
+求解该分类问题，实质上就是使得<script type="math/tex">J(\theta)</script>最小，又因<br />
+<script type="math/tex">\frac{d^2{(J(\theta))}}{d\theta_j^2} = \frac{1}{m} \sum_{i=1}^{m} {x_j^{(i)}}^2 h_{\theta}{(x^{(i)})} (1 - h_{\theta}(x^{(i)}) ) \geq 0</script></p>
+
+<p>那么<script type="math/tex"> J(\theta) </script>是凸函数，因此，该等式可用gradient descent解决。<br />
+<script type="math/tex"> \theta_j = \theta_j - \alpha \sum_{i=1}^m [ h_{\theta}( x^{(i)} ) - y^{(i)} ] x_j^{(i)} </script></p>
+</div>
+</div>
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

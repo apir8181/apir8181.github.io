@@ -1,0 +1,10 @@
+timezone: HK
+encoding: utf-8
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"

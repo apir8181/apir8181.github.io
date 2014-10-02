@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Onn</title>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/simple-sidebar.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/post.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/hemisu-light.css"/>
+    <script src="/assets/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/google-code-prettify/prettify.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/post.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand"><a href="/">Onn</a></li>
+          <li><a href="/life.html">Life</a></li>
+          <li><a href="/algorithm.html">Algorithm</a></li>
+          <li><a href="/ml.html">Machine Learning</a></li>
+          <li><a href="/system.html">System</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div> 
+
+      <div id="page-content-wrapper" class="container">
+        <div id="page-content" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          
+
+
+
+
+
+<div>
+  <h2 class="post-title"><a href="/system/2014/06/23/summba.html">summba Buffalo阶段小记</a></h2>
+  <p class="post-date">23 June 2014</p>
+  <p class="post-content">本文从blog.163.com/kazenoyume@126/上迁移过来 Buffalo是我在Summba公司参与开发的一个分布式任务调度以及任务处理框架。现在看它的代码，大约只有1W行，说它简单也简单，说它复杂也复杂。说它简单是在于它所做的事情真的十分的简单，说它复杂是我们把开发Buffalo这个项目的大部分时间都耗费在考虑可用性以及健壮性上，一时半刻可能理解不了这里面的所有实现细节。到目前为止，我也不能说我对Buffalo的代码有一个Fully Control的能力。 开发一个分布式系统过程中最大的麻烦在于对各种设计方案进行决策，这是我在Buffalo开发过程中所得到的一种感悟。我在...</p>
+</div>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+<div>
+  <h2 class="post-title"><a href="/system/2014/04/14/char_encode.html">字符的编码与解码</a></h2>
+  <p class="post-date">14 April 2014</p>
+  <p class="post-content">本文从kazenoyumechen.wordpress.com上迁移过来 相信大家也有過這樣的經歷，當使用編輯器打開別人的文件時，顯示出來的文件內容是不可讀的。在網上查閱一陣資料瞎搗鼓後，發現只需在編輯器中設置編碼格式之後，文章的內容便會正確顯示了。其實上述問題只是一個簡單的字符編碼解碼問題，爲了解釋清楚這個問題，我們先來看看編碼與解碼兩者的定義。 字符集：由多個字符組成的集合。如西文‘a’-’z’所構成的集合是一個字符集，由所有漢字字符所組成的集合也是一個字符集。 字符編碼（Character Encode）：將字符集中所有元素均轉換爲另一種便與計算機存儲的格式（比特模式，電脈衝）。 ...</p>
+</div>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+<div>
+  <h2 class="post-title"><a href="/system/2013/04/10/wechat-min.html">微信公众平台开发小记</a></h2>
+  <p class="post-date">10 April 2013</p>
+  <p class="post-content">本文是在原博客kazenoyu.me上迁移过来 最近参加了微信的创新班，在这个班上，我需要做一些编程作业。而其中一个作业就是使用微信公众平台创建一个帐号，这个帐号的内容是自己定制的。我选择了广州图书馆自助平台作为微信公众号的内容，它含有的功能非常简单，能够简单的查看一个帐号的借阅信息、查询某本图书的信息以及提供续借的功能。我使用的技术相当简单，使用python的bottle框架作为httpserver，requests库解决http请求处理的问题，例如使用cookie记录账户信息。 刚开始的时候是打算使用django的，因为最近有使用django的经验。后来觉得使用django有点杀鸡用...</p>
+</div>
+<hr>
+
+
+
+<div>
+  <h2 class="post-title"><a href="/system/2013/04/10/django.html">搭建博客小记</a></h2>
+  <p class="post-date">10 April 2013</p>
+  <p class="post-content">本文是在原博客kazenoyu.me上迁移过来 最近在用django框架写个人博客，经过几天的奋战之后代码终于写得差不多了。写完代码之后就遇到另外一个问题，如何配置服务器来让django能跑起来。 在折腾配置django服务器的时候遇到了很多很多的问题。原本以为在服务器上配置跟在本地配置一样简单，没想到一大堆奇怪的东西要去折腾。在开始的时候连简单的ssh都不会，还要帆爷教这命令怎么用。 ssh username@127.0.0.1 然后在服务器上各种配环境，期间也出过不少的奇葩问题。比如说服务器的python2.6是不支持{}这样来创建set的，这个在2.7才支持。 刚开始以为要去折腾a...</p>
+</div>
+<hr>
+
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

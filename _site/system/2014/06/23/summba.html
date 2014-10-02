@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Onn</title>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/simple-sidebar.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/post.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/hemisu-light.css"/>
+    <script src="/assets/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/google-code-prettify/prettify.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/post.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+
+  <body>
+    <div id="wrapper">
+
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand"><a href="/">Onn</a></li>
+          <li><a href="/life.html">Life</a></li>
+          <li><a href="/algorithm.html">Algorithm</a></li>
+          <li><a href="/ml.html">Machine Learning</a></li>
+          <li><a href="/system.html">System</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div> 
+
+      <div id="page-content-wrapper" class="container">
+        <div id="page-content" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          <div>
+  <h2 class="post-title">summba Buffalo阶段小记</h2>
+  <p class="post-date">23 June 2014</p>
+  <div class="post-content"><p><strong>本文从blog.163.com/kazenoyume@126/上迁移过来</strong></p>
+
+<p>Buffalo是我在Summba公司参与开发的一个分布式任务调度以及任务处理框架。现在看它的代码，大约只有1W行，说它简单也简单，说它复杂也复杂。说它简单是在于它所做的事情真的十分的简单，说它复杂是我们把开发Buffalo这个项目的大部分时间都耗费在考虑可用性以及健壮性上，一时半刻可能理解不了这里面的所有实现细节。到目前为止，我也不能说我对Buffalo的代码有一个Fully Control的能力。</p>
+
+<p>开发一个分布式系统过程中最大的麻烦在于对各种设计方案进行决策，这是我在Buffalo开发过程中所得到的一种感悟。我在开发Buffalo的过程中至少遇到了3个需要决策的地方，同时我也希望在这些需要决策的地方尽可能地采用我的方案。也许我提出的方案并不足够的好，没办法说服其他人采取我的方案，最后实现的时候采取了其他的方案。现在回想起来，他们不采取我这方案的一个重要原因应该是在于实现过于复杂，Buffalo系统现在代码如此简单也得益于他们的决策。</p>
+
+<p>下面我来总结一下我在开发Buffalo过程中遇到的几个比较重要的问题，以及其相应的解决思路：</p>
+
+<p><strong>Log4j进程安全问题</strong><br />
+Log4j是线程安全的，这意味着多个线程在同时使用Log4j的时候并不会出现日志乱序的现象（我也看了一下Log4j的源代码，探讨Log4j线程安全的原因。它是使用了synchronize字样同步了FileAppender实例中的doAppend方法，使其成为线程安全）。但是，Log4j并不是进程安全的。网上也有很多例子证明了Log4j是非进程安全的。旧版本的Buffalo使用的是akka的多线程并发方式，因此使用Log4j并不会出现太大问题。而新版本的Buffalo使用的是多进程的并发任务处理方式，使用Log4j很容易会出现日志干扰和日志丢失的现象。 <br />
+Log4j官方FAQ中说到，多进程环境下的Log4j应采取单独开启一个SocketServer作为日志记录服务器，使用Log4j的客户端应使用SocketAppender向服务器发送日志。刚开始的时候我使用了Log4j中自带的SimpleSocketServer进行日志记录，但是后来发现SimpleSocketServer并不能满足我们业务分日志文件记录的要求。<br />
+在这种情况下，当时我的项目leader做出了不考虑进程安全问题直接使用Log4j的决策。一是由于我不熟悉Log4j的底层代码，无法很好的评估写一个SocketServer所花费的时间，二是他们觉得目前公司在多进程使用Log4j并没有出现丢Log现象。<br />
+很讽刺的，今天遇到了个在多进程环境下使用Log4j的BUG。它是在多进程环境下，使用DailyRollingFileAppender会出现大量丢LOG的现象。现在由于有了看过Log4j源代码的经验，要解决这个问题也相当的简单了。</p>
+
+<p><strong>Jar包更新</strong><br />
+无论是新版本还是旧版本，Buffalo的Jar包更新一直都有一点的问题。据我所知，至少有两个问题：（1）两个Jar包同时发生更新时，有可能会某个Jar包没发生更新。（2）Buffalo本地的cache的Jar包有一定程度的冗余，冗余因子大概处于2～3之间。 我也曾经为了第（2）个问题想了一些解决方案，但却因为实现会相对复杂而没有采用。<br />
+在进程化的Buffalo开发过程中，Jar包更新也给我们带来了各种各样的问题。比如说，一个业务的Jar包发生更新了，队列里与这个Jar包有关的任务该怎么处理，正在运行的任务又怎么处理呢？ 我们目前的实现方法是这样的：（1）发生Jar包更新时，使用RPC通知Runner该自行退出（2）Runner检查是否需要退出，当满足一定条件下退出（3）Runner在所有线程不运行任务时推出（4）Runner在拿到任务时，若发现Jar包已发生更新，则把任务放回队列后退出。 这些实现又一定程度上影响了业务代码的复杂性。</p>
+
+<p><strong>Java的Jar包冲突</strong><br />
+Buffalo会依赖一些第3方包，一般情况下，业务的Jar包也会依赖一些第3方的包。由于业务需要Buffalo加载业务的Jar包后，业务逻辑代码才会正常运行。这两个Jar包之间就很容易出现依赖包版本冲突的状况。zewei曾经就在Jar包版本冲突里遇到了不少坑。</p>
+
+<p><strong>Runner卡死</strong><br />
+在做Buffalo的过程中，曾经遇到过某些业务的逻辑代码运行时间相当相当的长的情况（有次一个业务的一个任务跑了10个小时还没跑完）。由于分配给Runner的运行线程是有限的，当这几个运行线程都在运行这些任务的时候，整个集群就处于一种“卡住”的状态了。后来，对每个业务类型设置了一个运行超时时间。当线程运行任务超时时，就把该线程关闭掉，重新启动另外一个线程即可。</p>
+
+<p>在做Buffalo过程中也收获了不少东西，以下几条是比较重要的：熟悉了Redis、ZooKeeper以及HBase、熟悉了JVM的Classloader以及GC机制。最重要的是，熟悉了Java生态工具链，实习的目的也达到了</p>
+</div>
+</div>
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
