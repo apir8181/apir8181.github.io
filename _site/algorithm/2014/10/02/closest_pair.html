@@ -19,12 +19,15 @@
       <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
           <li class="sidebar-brand"><a href="/">Onn</a></li>
+          <li>Life is short.</li>
+          <li>Pursuing what you want.</li>
           <li><a href="/life.html">Life</a></li>
           <li><a href="/algorithm.html">Algorithm</a></li>
           <li><a href="/ml.html">Machine Learning</a></li>
           <li><a href="/system.html">System</a></li>
           <li><a href="/about.html">About</a></li>
         </ul>
+
       </div> 
 
       <div id="page-content-wrapper" class="container">
@@ -35,7 +38,7 @@
   <div class="post-content"><p>最近在算法课上，遇到了一个很有意思的题目，题目的大意是寻找空间中的最近点对。</p>
 
 <p><strong>给定空间上的n个节点<script type="math/tex">S = \{(x_i, y_i)\}</script>，如何查找这n个点对中最近的点对的距离?</strong><br />
-<em>这里的距离采用欧氏距离<script type="math/tex">dist(i, j) = (x_i-x_j)^2 + (y_i-y_j)^2</script></em></p>
+<em>这里的距离采用欧氏距离<script type="math/tex">dist(i, j) = \sqrt{(x_i-x_j)^2 + (y_i-y_j)^2}</script></em></p>
 
 <hr />
 
@@ -109,7 +112,7 @@
 
 <p><img src="/assets/posts/2014-10-02-closest_pair/2.jpg" alt="2.jpg" /></p>
 
-<p>我们利用反证法来证明这个区域中最多只有6个节点，假如这个矩形区域中存在7个或以上的点，由鹊巢原理可以知道其中一个小矩形必然至少有2个点。而小矩形中，两个点的最远距离为<script type="math/tex">sqrt((\frac{2}{3}\theta)^2 + (\frac{1}{3}\theta)^2) = \frac{5}{6}\theta</script>。此时该距离比<script type="math/tex">\theta</script>小，由于这些点都是在<script type="math/tex">Q</script>中，并且<script type="math/tex">ans(Q) \ge \theta</script>，则此时发生了矛盾。因此，原假设成立。</p>
+<p>我们利用反证法来证明这个区域中最多只有6个节点，假如这个矩形区域中存在7个或以上的点，由鹊巢原理可以知道其中一个小矩形必然至少有2个点。而小矩形中，两个点的最远距离为<script type="math/tex">\sqrt{(\frac{2}{3}\theta)^2 + (\frac{1}{3}\theta)^2} = \frac{5}{6}\theta</script>。此时该距离比<script type="math/tex">\theta</script>小，由于这些点都是在<script type="math/tex">Q</script>中，并且<script type="math/tex">ans(Q) \ge \theta</script>，则此时发生了矛盾。因此，原假设成立。</p>
 
 <hr />
 
@@ -268,6 +271,23 @@ int main() {
   <li>编程之美：平面最近点对 <a href="http://www.cnblogs.com/hxsyl/p/3230164.html">http://www.cnblogs.com/hxsyl/p/3230164.html</a></li>
 </ul>
 </div>
+
+  <!-- 多说评论框 start -->
+  <div style="margin-top: 100px" class="ds-thread" data-thread-key="/algorithm/2014/10/02/closest_pair" data-title="最近点对" data-url="/algorithm/2014/10/02/closest_pair.html"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"onn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
 </div>
 
         </div>
