@@ -12,7 +12,7 @@ $$\delta_i = \min_{j: \rho_i > \rho_j}(d_{ij})$$。$$\delta_i$$的具体意思�
 
 在计算出所有节点的$$\rho$$和$$\delta$$后，将在二维平面上画出$$(\rho, delta)$$的值。画出这些值的图叫做决策图。用户依赖决策图来进行聚类中心的选取。下图种，左图为需要聚类的节点，右图为决策图。
 
-![DecisionGraph](/assets/posts/2015-01-03-density_peak/decision_graph.png)
+![DecisionGraph](/assets/posts/2015-01-03-density_peak/decision_graph.jpg)
 
 在画出决策图后，需要用户根据决策图选择聚类中心。文章提出了一种基于主观印象的启发式方法，靠用户的主观印象选择$$\rho$$和$$\delta$$都较大的节点作为聚类中心。文章认为只有当$$\rho$$和$$\delta$$都较大的时候，它才能代表聚类中心。因为要成为聚类中心，其局部密度必须较大。而当某节点$$\delta$$较小的时候，由于该节点附近有一个局部密度比其大的节点，因此它不能成为聚类中心。
 
@@ -44,7 +44,7 @@ $$Recall = \frac{1}{n} \sum_{i=1}^n \frac{ \sum_{L_i = L_j, i \neq j} correctnes
 $$d_c$$, dpeak precision, dpeak recall, kmeans precision, kmeans recall  
 2, 0.947151, 0.937514, 0.874183, 0.786176
 
-![aggregation](/assets/posts/2015-01-03-density_peak/aggregation.png)
+![aggregation](/assets/posts/2015-01-03-density_peak/aggregation.jpg)
 
 上述score curve是以$$\rho_i * \delta_i$$进行排序后绘制结果。其中红色框框为选取的聚类中心。
 
@@ -53,28 +53,28 @@ $$d_c$$, dpeak precision, dpeak recall, kmeans precision, kmeans recall
 $$d_c$$, densitypeak bcuted precision, densitypeak bcuted recall, kmeans bcuted precision, kmeans bcuted recall  
 2, 0.758319, 0.713470, 0.689736, 0.581143
 
-![compound](/assets/posts/2015-01-03-density_peak/Compound.png)
+![compound](/assets/posts/2015-01-03-density_peak/Compound.jpg)
 
 **D31**
 
 $$d_c$$, densitypeak bcuted precision, densitypeak bcuted recall, kmeans bcuted precision, kmeans bcuted recall  
 1, 0.948372, 0.948485, 0.869463, 0.893978
 
-![D31](/assets/posts/2015-01-03-density_peak/D31.png)
+![D31](/assets/posts/2015-01-03-density_peak/D31.jpg)
 
 **flame**
 
 $$d_c$$, densitypeak bcuted precision, densitypeak bcuted recall, kmeans bcuted precision, kmeans bcuted recall  
 2, 0.756483, 0.736908, 0.754876, 0.735802
 
-![flame](/assets/posts/2015-01-03-density_peak/flame.png)
+![flame](/assets/posts/2015-01-03-density_peak/flame.jpg)
 
 **pathbased**
 
 $$d_c$$, densitypeak bcuted precision, densitypeak bcuted recall, kmeans bcuted precision, kmeans bcuted recall  
 2, 0.533395, 0.815963, 0.532796, 0.815229
 
-![pathbased](/assets/posts/2015-01-03-density_peak/pathbased.png)
+![pathbased](/assets/posts/2015-01-03-density_peak/pathbased.jpg)
 
 这组数据集实在太难从score curve中看出有3个聚类中心。
 
@@ -83,7 +83,7 @@ $$d_c$$, densitypeak bcuted precision, densitypeak bcuted recall, kmeans bcuted 
 $$d_c$$, densitypeak bcuted precision, densitypeak bcuted recall, kmeans bcuted precision, kmeans bcuted recall  
 0.7, 0.900749, 0.958974, 0.692143, 0.862222
 
-![R15](/assets/posts/2015-01-03-density_peak/R15.png)
+![R15](/assets/posts/2015-01-03-density_peak/R15.jpg)
 
 
 **spiral**
@@ -91,7 +91,7 @@ $$d_c$$, densitypeak bcuted precision, densitypeak bcuted recall, kmeans bcuted 
 $$d_c$$, densitypeak bcuted precision, densitypeak bcuted recall, kmeans bcuted precision, kmeans bcuted recall  
 2, 0.327694, 0.328936, 0.327500, 0.327764
 
-![spiral](/assets/posts/2015-01-03-density_peak/spiral.png)
+![spiral](/assets/posts/2015-01-03-density_peak/spiral.jpg)
 
 在gaussian kernel下面，无法实现出原论文中的效果。而且这组数据的表现也相当的差。一个可能原因是使用gaussian kernel的距离度量在一定程度上限制了聚类算法，这时候聚类算法更容易会把形状聚成圆形。
 
