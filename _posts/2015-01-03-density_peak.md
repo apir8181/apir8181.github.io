@@ -30,13 +30,9 @@ $$\rho_i = \sum_{j, i \neq j}{(1 - kernel\_dist(i, j))}$$
 数据集在[http://cs.joensuu.fi/sipu/datasets/]()的Shape sets处获得。除了将聚类结果可视化进行直观上的分析之外，由于数据集中含有基准聚类结果，因此可对聚类结果进行客观上的分析。在此我使用的评判标准是bcubed。
 对于bcubed，假设$$C_i$$代表节点i的聚类类别，$$L_i$$代表节点i的基准类别，那么其计算公式如下
 
-$$correctness(i, j) = bool(L_i = L_j, C_i = C_j)$$
-
-
-$$Precision = \frac{1}{n} \sum_{i=1}^n\frac{ \sum_{C_i = C_j,i \neq j}correctness(i, j) }{ \|j | C_i = C_j, i \neq j\| }$$
-
-
-$$Recall = \frac{1}{n} \sum_{i=1}^n \frac{ \sum_{L_i = L_j, i \neq j} correctness(i, j) }{\|j|L_i = L_j, i \neq j\|}$$
+$$correctness(i, j) = bool(L_i = L_j, C_i = C_j) \\
+Precision = \frac{1}{n} \sum_{i=1}^n\frac{ \sum_{C_i = C_j,i \neq j}correctness(i, j) }{ \|j | C_i = C_j, i \neq j\| } \\
+Recall = \frac{1}{n} \sum_{i=1}^n \frac{ \sum_{L_i = L_j, i \neq j} correctness(i, j) }{\|j|L_i = L_j, i \neq j\|}$$
 
 ####实验结果
 以下是我的实现结果，在实现的同时以kmeans作为基准算法来进行比较。
