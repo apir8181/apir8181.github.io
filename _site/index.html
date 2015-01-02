@@ -34,16 +34,9 @@
         <div id="page-content" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
           
 <div>
-  <h2 class="post-title"><a href="/2014/11/09/p_stable.html">P_stable</a></h2>
-  <p class="post-date">09 November 2014</p>
-  <p class="post-content">p-Stable LSH 小组成员： * 陈侨安， 2014213533 * 李峰， 2014213505 在这次实验中，我们选择实现的是p-stable的LSH。p-stable的总体思想是：先对空间中的一条直线进行区间划分，线段的每个区间代表一个hash桶。然后把空间中的点通过一定的手段映射到这条直线的哈希桶上，这个映射是位置敏感的，距离越近的点被映射到相同hash桶上的概率越大，反之越远。...</p>
-</div>
-<hr>
-
-<div>
-  <h2 class="post-title"><a href="/system/2014/10/27/coalesced_rdd.html">spark中的coalesced</a></h2>
-  <p class="post-date">27 October 2014</p>
-  <p class="post-content">在spark中，rdd1.coalesced(n)的作用是将原本分区大小为m的rdd1变成分区大小为n的rdd2。在spark 0.8版本之前，它是这样实现的。 class CoalescedRDD[T: ClassManifest]( // 经过coalesced操作后新生成的RDD类型 @transient var prev:...</p>
+  <h2 class="post-title"><a href="/machine%20learning/2015/01/03/density_peak.html">Clustering by fast search and find of density peaks</a></h2>
+  <p class="post-date">03 January 2015</p>
+  <p class="post-content">论文简要思想 在论文中，它定义了两个比较重要的公式，。 。其中，代表的是离节点i距离少于的节点个数，也称为截断距离。由于能代表节点所在位置附近节点的分布密集情况，因此它也称为节点i的局部密度。 。的具体意思是，先找出比自身局部密度大的节点，在这些节点中选择离节点i距离最短的值作为的值。 在计算出所有节点的和后，将在二维平面上画出的值。画出这些值的图叫做决策图。用户依赖决策图来进行聚类中心的选取。下图种，左图为需要聚类的节点，右图为决策图。 在画出决策图后，需要用户根据决策图选择聚类中心。文章提出了一种基于主观印象的启发式方法，靠用户的主观印象选择和都较大的节点作为聚类中心。文章认为只有当...</p>
 </div>
 <hr>
 

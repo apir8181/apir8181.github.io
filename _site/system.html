@@ -37,15 +37,6 @@
 
 
 <div>
-  <h2 class="post-title"><a href="/system/2014/10/27/coalesced_rdd.html">spark中的coalesced</a></h2>
-  <p class="post-date">27 October 2014</p>
-  <p class="post-content">在spark中，rdd1.coalesced(n)的作用是将原本分区大小为m的rdd1变成分区大小为n的rdd2。在spark 0.8版本之前，它是这样实现的。 class CoalescedRDD[T: ClassManifest]( // 经过coalesced操作后新生成的RDD类型 @transient var prev:...</p>
-</div>
-<hr>
-
-
-
-<div>
   <h2 class="post-title"><a href="/system/2014/10/22/rdd.html">RDD结构及其操作 - Spark源代码学习</a></h2>
   <p class="post-date">22 October 2014</p>
   <p class="post-content">本文假定读者看过Matei Zaharia的论文http://www.cs.berkeley.edu/~matei/papers/2012/nsdi_spark.pdf，熟悉spark术语并且有一定的spark使用经验。 RDD(Resilient Distributed Dataset)，是分布的只读数据集合。它是Spark中对数据集合的一种抽象，Spark对其定义了一系列的操作(map, filter, join等)。 以下将列出在spark源代码RDD类中，比较重要的数据及其操作。逻辑操作(map, reduce, join等)将会在下个专题中分析。...</p>

@@ -3,6 +3,8 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Onn</title>
     <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/simple-sidebar.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/post.css"/>
     <link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="/assets/css/hemisu-light.css"/>
     <script src="/assets/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
@@ -13,8 +15,24 @@
 
   <body>
     <div id="wrapper">
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-<div>
+
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand"><a href="/">Onn</a></li>
+          <li>Life is short.</li>
+          <li>Pursuing what you want.</li>
+          <li><a href="/life.html">Life</a></li>
+          <li><a href="/algorithm.html">Algorithm</a></li>
+          <li><a href="/ml.html">Machine Learning</a></li>
+          <li><a href="/system.html">System</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+
+      </div> 
+
+      <div id="page-content-wrapper" class="container">
+        <div id="page-content" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+          <div>
   <h2 class="post-title">最近点对</h2>
   <p class="post-date">02 October 2014</p>
   <div class="post-content"><p>最近在算法课上，遇到了一个很有意思的题目，题目的大意是寻找空间中的最近点对。</p>
@@ -253,10 +271,28 @@ int main() {
   <li>编程之美：平面最近点对 <a href="http://www.cnblogs.com/hxsyl/p/3230164.html">http://www.cnblogs.com/hxsyl/p/3230164.html</a></li>
 </ul>
 </div>
+
+  <!-- 多说评论框 start -->
+  <div style="margin-top: 100px" class="ds-thread" data-thread-key="/algorithm/2014/10/02/closest_pair" data-title="最近点对" data-url="/algorithm/2014/10/02/closest_pair.html"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"onn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
 </div>
+
         </div>
       </div>
 
-
+    </div>
   </body>
 </html>
