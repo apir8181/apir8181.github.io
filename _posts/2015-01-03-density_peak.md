@@ -32,7 +32,9 @@ $$\rho_i = \sum_{j, i \neq j}{(1 - kernel\_dist(i, j))}$$
 
 $$correctness(i, j) = bool(L_i = L_j, C_i = C_j)$$
 
+
 $$Precision = \frac{1}{n} \sum_{i=1}^n\frac{ \sum_{C_i = C_j,i \neq j}correctness(i, j) }{ \|j | C_i = C_j, i \neq j\| }$$
+
 
 $$Recall = \frac{1}{n} \sum_{i=1}^n \frac{ \sum_{L_i = L_j, i \neq j} correctness(i, j) }{\|j|L_i = L_j, i \neq j\|}$$
 
