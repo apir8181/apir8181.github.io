@@ -34,6 +34,13 @@
         <div id="page-content" class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
           
 <div>
+  <h2 class="post-title"><a href="/ml/2015/08/08/sex_filter.html">色情文本分类 - 机器学习实践</a></h2>
+  <p class="post-date">08 August 2015</p>
+  <p class="post-content">最近有个小项目，做的是从用户访问过的网页内容进行色情文本过滤。在项目中，所学习到的技术为pig与scikit-learn。本文从项目背景出发，简单地介绍了如何使用scikit-learn进行分类器设计。 色情文本分类器设计，在机器学习中为一个有监督的学习问题。这类问题都可以遵循以下设计方法进行： 收集训练数据与测试数据。 对数据进行特征提取和特征变换。 保留较为有效的特征，抛弃无效或噪音特征。 选择一种分类器，进行分类器训练。 对分类器进行交叉校验(cross validation)，从中得出较优的超参数。 在测试集上进行数据测试。 数据收集...</p>
+</div>
+<hr>
+
+<div>
   <h2 class="post-title"><a href="/machine%20learning/2015/01/03/density_peak.html">Clustering by fast search and find of density peaks</a></h2>
   <p class="post-date">03 January 2015</p>
   <p class="post-content">论文简要思想 在论文中，它定义了两个比较重要的公式，。 。其中，代表的是离节点i距离少于的节点个数，也称为截断距离。由于能代表节点所在位置附近节点的分布密集情况，因此它也称为节点i的局部密度。 。的具体意思是，先找出比自身局部密度大的节点，在这些节点中选择离节点i距离最短的值作为的值。 在计算出所有节点的和后，将在二维平面上画出的值。画出这些值的图叫做决策图。用户依赖决策图来进行聚类中心的选取。下图种，左图为需要聚类的节点，右图为决策图。 在画出决策图后，需要用户根据决策图选择聚类中心。文章提出了一种基于主观印象的启发式方法，靠用户的主观印象选择和都较大的节点作为聚类中心。文章认为只有当...</p>
